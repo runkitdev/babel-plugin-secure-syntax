@@ -1,0 +1,8 @@
+[
+    {
+        "description": "Stripe API Key",
+        "regexp": {
+            "pattern": "sk_live_([A-Za-z0-9*]{12,30})"
+        }
+    }
+]
