@@ -1,6 +1,7 @@
 "use strict";
 
 var keyDefinitions = require("./key-definitions");
+var SecuritySyntaxError = require("./security-syntax-error");
 
 var map = {};
 keyDefinitions.forEach(function(def)
@@ -22,14 +23,6 @@ function containsKey(string)
     return false;
 }
 
-function keyOccurrence(type, location)
-{
-    var err = new SyntaxError("unexpected " + type + " was found");
-    err.lineNumber = location.line;
-    err.columnNumber = location.column;
-    return err;
-}
-
 module.exports = function ()
 {
     return {
@@ -43,7 +36,7 @@ module.exports = function ()
                     {
                         var keyType = containsKey(comment.value);
                         if (keyType)
-                            state.file.metadata.errors.push(keyOccurrence(keyType, comment.loc));
+                            state.file.metadata.errors.push(new SecuritySyntaxError(keyType, state.file.name, comment.loc));
                     });
                 },
                 exit(path, state)
@@ -57,7 +50,7 @@ module.exports = function ()
                 var keyType = containsKey(path.node.value);
 
                 if (keyType)
-                    state.file.metadata.errors.push(keyOccurrence(keyType, path.node.loc));
+                    state.file.metadata.errors.push(new SecuritySyntaxError(keyType, state.file.name, path.node.loc));
             },
         }
     };
