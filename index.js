@@ -24,14 +24,9 @@ function containsKey(string)
 
 function keyOccurrence(type, location)
 {
-    return { type: type, loc: location.start };
-}
-
-function toSyntaxError(keyOccurrence)
-{
-    var err = new SyntaxError("unexpected " + keyOccurrence.type + " was found");
-    err.lineNumber = keyOccurrence.loc.line;
-    err.columnNumber = keyOccurrence.loc.column;
+    var err = new SyntaxError("unexpected " + type + " was found");
+    err.lineNumber = location.line;
+    err.columnNumber = location.column;
     return err;
 }
 
@@ -54,10 +49,7 @@ module.exports = function ()
                 exit(path, state)
                 {
                     if (state.file.metadata.errors.length)
-                    {
-                        var firstError = state.file.metadata.errors.pop();
-                        throw toSyntaxError(firstError);
-                    }
+                        throw state.file.metadata.errors.pop();
                 }
             },
             StringLiteral(path, state)
