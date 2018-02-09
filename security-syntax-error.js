@@ -11,11 +11,11 @@ function SecuritySyntaxError(type, fileName, location)
     return instance;
 }
 
-SecuritySyntaxError.prototype = new SyntaxError;
+SecuritySyntaxError.prototype = new SyntaxError();
 SecuritySyntaxError.prototype.constructor = SecuritySyntaxError;
 SecuritySyntaxError.toString = function ()
 {
     return "SecuritySyntaxError: " + this.message;
-}
+};
 
 module.exports = SecuritySyntaxError;
