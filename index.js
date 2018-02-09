@@ -1,22 +1,15 @@
 "use strict";
 
-var keyDefinitions = require("./key-definitions");
 var SecuritySyntaxError = require("./security-syntax-error");
-
-var map = {};
-keyDefinitions.forEach(function(def)
-{
-    map[def.description] = new RegExp(def.regexp.pattern);
-    return map[def.description];
-});
+var keyDefinitionsMap = require("./processed-key-definitions").keyDefinitionsMap;
 
 function containsKey(string)
 {
-    for (var keyDef in map)
+    for (var keyDef in keyDefinitionsMap)
     {
-        if (map.hasOwnProperty(keyDef))
+        if (keyDefinitionsMap.hasOwnProperty(keyDef))
         {
-            if (map[keyDef].test(string))
+            if (keyDefinitionsMap[keyDef].test(string))
                 return keyDef;
         }
     }
