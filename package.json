@@ -1,5 +1,5 @@
 {
-  "name": "api-key-syntax-errors",
+  "name": "security-syntax-errors",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Pieter Ouwerkerk <pieter.ouwerkerk@gmail.com>",
