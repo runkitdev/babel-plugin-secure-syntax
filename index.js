@@ -22,30 +22,50 @@ function containsKey(string)
     return false;
 }
 
-function errorMessage(keyDescription)
+function keyOccurrence(type, location)
 {
-    return "Error: Contains " + keyDescription + ".";
+    return { type: type, loc: location.start };
+}
+
+function toSyntaxError(keyOccurrence)
+{
+    var err = new SyntaxError("unexpected " + keyOccurrence.type + " was found");
+    err.lineNumber = keyOccurrence.loc.line;
+    err.columnNumber = keyOccurrence.loc.column;
+    return err;
 }
 
 module.exports = function ()
 {
     return {
         visitor: {
-            Program(path, state)
-            {
-                // As far as I can tell, the only way for a Visitor to get to a File is through the Program parent
-                path.parent.comments.forEach(function(comment)
+            Program: {
+                enter(path, state)
                 {
-                    var key = containsKey(comment.value);
-                    if (key)
-                        throw path.buildCodeFrameError(errorMessage(key));
-                });
+                    state.file.metadata.errors = [ ];
+
+                    path.parent.comments.forEach(function(comment)
+                    {
+                        var keyType = containsKey(comment.value);
+                        if (keyType)
+                            state.file.metadata.errors.push(keyOccurrence(keyType, comment.loc));
+                    });
+                },
+                exit(path, state)
+                {
+                    if (state.file.metadata.errors.length)
+                    {
+                        var firstError = state.file.metadata.errors.pop();
+                        throw toSyntaxError(firstError);
+                    }
+                }
             },
-            StringLiteral(path)
+            StringLiteral(path, state)
             {
-                var key = containsKey(path.node.value);
-                if (key)
-                    throw path.buildCodeFrameError(errorMessage(key));
+                var keyType = containsKey(path.node.value);
+
+                if (keyType)
+                    state.file.metadata.errors.push(keyOccurrence(keyType, path.node.loc));
             },
         }
     };
