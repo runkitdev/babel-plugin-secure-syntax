@@ -21,7 +21,7 @@ module.exports = function ()
     return {
         visitor: {
             Program: {
-                enter(path, state)
+                enter: function enter(path, state)
                 {
                     state.file.metadata.errors = [ ];
 
@@ -32,13 +32,13 @@ module.exports = function ()
                             state.file.metadata.errors.push(new SecuritySyntaxError(keyType, state.file.name, comment.loc));
                     });
                 },
-                exit(path, state)
+                exit: function enter(path, state)
                 {
                     if (state.file.metadata.errors.length)
                         throw state.file.metadata.errors.pop();
                 }
             },
-            StringLiteral(path, state)
+            StringLiteral: function StringLiteral(path, state)
             {
                 var keyType = containsKey(path.node.value);
 
