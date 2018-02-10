@@ -3,7 +3,8 @@ function SecuritySyntaxError(type, fileName, location)
     var message = "unexpected " + type + " was found";
     var instance = new SyntaxError(message, fileName, location.start.lineNumber);
     instance.columnNumber = location.start.columnNumber;
-    instance.location = location;
+    instance.start = location.start;
+    instance.end = location.end;
     instance.type = type;
 
     Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
