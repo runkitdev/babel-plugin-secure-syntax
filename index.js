@@ -49,13 +49,7 @@ module.exports = function ()
                         throw state.file.metadata.errors.pop();
                 }
             },
-            StringLiteral: function StringLiteral(path, state)
-            {
-                var keyType = containsKey(path.node.value);
-
-                if (keyType)
-                    state.file.metadata.errors.push(new SecuritySyntaxError(keyType, state.file.name, path.node.loc));
-            },
+            StringLiteral: checkForKeyIn("value"),
         }
     };
 };
