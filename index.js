@@ -16,6 +16,17 @@ function containsKey(string)
     return false;
 }
 
+function checkForKeyIn(property)
+{
+    return function (path, state)
+    {
+        var keyType = containsKey(path.node[property]);
+
+        if (keyType)
+            state.file.metadata.errors.push(new SecuritySyntaxError("Inline " + keyType + " was found", keyType, state.file.name, path.node.loc));
+    };
+}
+
 module.exports = function ()
 {
     return {
