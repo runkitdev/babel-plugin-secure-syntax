@@ -50,6 +50,13 @@ module.exports = function ()
                 }
             },
             StringLiteral: checkForKeyIn("value"),
+            RegExpLiteral: checkForKeyIn("pattern"),
+            TemplateElement: function (path, state)
+            {
+                var keyType = containsKey(path.node.value.raw);
+                if (keyType)
+                    state.file.metadata.errors.push(new SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
+            },
         }
     };
 };
