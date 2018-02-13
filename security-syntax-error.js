@@ -18,4 +18,10 @@ SecuritySyntaxError.toString = function ()
     return "SecuritySyntaxError: " + this.message;
 };
 
+// Alternate constructor which automatically sets the message based on the type:
+SecuritySyntaxError.KeyError = function (type, fileName, location)
+{
+    return new SecuritySyntaxError("Inline " + type + " was found", type, fileName, location);
+};
+
 module.exports = SecuritySyntaxError;

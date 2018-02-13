@@ -23,7 +23,7 @@ function checkForKeyIn(property)
         var keyType = containsKey(path.node[property]);
 
         if (keyType)
-            state.file.metadata.errors.push(new SecuritySyntaxError("Inline " + keyType + " was found", keyType, state.file.name, path.node.loc));
+            state.file.metadata.errors.push(new SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
     };
 }
 
@@ -40,7 +40,7 @@ module.exports = function ()
                     {
                         var keyType = containsKey(comment.value);
                         if (keyType)
-                            state.file.metadata.errors.push(new SecuritySyntaxError(keyType, state.file.name, comment.loc));
+                            state.file.metadata.errors.push(new SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
                     });
                 },
                 exit: function enter(path, state)
