@@ -1,7 +1,6 @@
-function SecuritySyntaxError(type, fileName, location)
+function SecuritySyntaxError(message, type, fileName, location)
 {
-    var message = "unexpected " + type + " was found";
-    var instance = new SyntaxError(message, fileName, location.start.lineNumber);
+    var instance = new SyntaxError(message, type, fileName, location.start.lineNumber);
     instance.columnNumber = location.start.columnNumber;
     instance.start = location.start;
     instance.end = location.end;
