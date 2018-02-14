@@ -1,6 +1,8 @@
 function SecuritySyntaxError(message, type, fileName, location)
 {
-    var instance = new SyntaxError(message, type, fileName, location.start.lineNumber);
+    var instance = new SyntaxError(message);
+    instance.fileName = fileName;
+    instance.lineNumber = location.start.lineNumber;
     instance.columnNumber = location.start.columnNumber;
     instance.start = location.start;
     instance.end = location.end;
