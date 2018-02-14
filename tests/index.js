@@ -1,5 +1,6 @@
 const test = require("ava").test;
 const SecuritySyntaxErrors = require("../index");
+const SecuritySyntaxError = require("../security-syntax-error");
 const babel = require("babel-core");
 
 // Transform a source using Babel with no options except this plugin, security-syntax-errors:
@@ -18,7 +19,8 @@ test("should throw an exception if source contains an API key in a string", t =>
     const error = t.throws(() =>
     {
         transform(source);
-    }, SyntaxError);
+    }, SecuritySyntaxError);
 
     t.is(/Inline Stripe API Key was found/.test(error.message), true);
+    t.is(error instanceof SyntaxError, true);
 });
