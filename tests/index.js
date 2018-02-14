@@ -24,3 +24,14 @@ test("should throw an exception if source contains an API key in a string", t =>
     t.is(/Inline Stripe API Key was found/.test(error.message), true);
     t.is(error instanceof SyntaxError, true);
 });
+
+test("should identify API keys even if parse fails", t =>
+{
+    const source = `This file doesn't contain valid JavaScript, but it includes an API key:
+        sk_live_FakeStripeAPIKey00000000.`;
+
+    const error = t.throws(() =>
+    {
+        transform(source);
+    }, SecuritySyntaxError);
+});
