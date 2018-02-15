@@ -4,6 +4,7 @@ var SecuritySyntaxError = require("./security-syntax-error");
 var AggregateError = require("./aggregate-error");
 var keyDefinitionsMap = require("./processed-key-definitions").keyDefinitionsMap;
 var combinedKeyRegExes = require("./processed-key-definitions").combinedKeyRegExes;
+var locationRange = require("./location");
 
 function containsKey(string)
 {
@@ -32,8 +33,9 @@ function securityCheckByRegex(source)
     var errors = [];
     while ((match = combinedKeyRegExes.exec(source)))
     {
-        var location = { start: { columnNumber: match.index } };
-        errors.push(new SecuritySyntaxError("Inline key error was found", match[0], null, location));
+        var keyType = containsKey(match[0]);
+        var location = locationRange(source, match.index, match[0]);
+        errors.push(new SecuritySyntaxError.KeyError(keyType, null, location));
     }
 
     if (errors.length)
