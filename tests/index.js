@@ -30,24 +30,24 @@ test("SecuritySyntaxError constructor should create a instance of a SecuritySynt
     t.is(error instanceof SyntaxError, true);
 });
 
-test("shouldn't mangle source if it doesn't contain an API key", t =>
-{
-    const samples = {
-        "source with safe types": "var b = true;",
-        "source with string": "var str = \"not an API key\";",
-        "source with template": "var t = `also not an API key`;",
-        "source with regular expression (literal)": "var reA = /ab+c/;",
-        "source with regular expression": "var reB = new RegExp(\"ab+c\");",
-        "source with line comment": "var i = 1; // not API keys here",
-        "source with comment block": "var n = null; /* not API keys here */",
-    };
+const benignSamples = {
+    "source with safe types": "var b = true;",
+    "source with string": "var str = \"not an API key\";",
+    "source with template": "var t = `also not an API key`;",
+    "source with regular expression (literal)": "var reA = /ab+c/;",
+    "source with regular expression": "var reB = new RegExp(\"ab+c\");",
+    "source with line comment": "var i = 1; // not API keys here",
+    "source with comment block": "var n = null; /* not API keys here */",
+};
 
-    R.mapObjIndexed((source, sampleName) =>
+R.mapObjIndexed((source, sampleName) =>
+{
+    test(`shouldn't mangle ${sampleName} if it doesn't contain an API key`, t =>
     {
         const transformedSource = transform(source);
         t.is(transformedSource.code, source);
-    }, samples);
-});
+    });
+}, benignSamples);
 
 test("should throw an exception if source contains an API key in a string", t =>
 {
