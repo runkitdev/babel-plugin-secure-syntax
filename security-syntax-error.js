@@ -2,10 +2,10 @@ function SecuritySyntaxError(message, type, fileName, location)
 {
     var instance = new SyntaxError(message);
     instance.fileName = fileName;
-    instance.lineNumber = location.start.lineNumber;
-    instance.columnNumber = location.start.columnNumber;
-    instance.start = location.start;
-    instance.end = location.end;
+    instance.start = location && location.start;
+    instance.end = location && location.end;
+    instance.lineNumber = instance.start && location.start.lineNumber;
+    instance.columnNumber = instance.start && location.start.columnNumber;
     instance.type = type;
 
     Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
