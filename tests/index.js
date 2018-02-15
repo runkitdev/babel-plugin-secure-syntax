@@ -6,6 +6,11 @@ const babel = require("babel-core");
 // Transform a source using Babel with no options except this plugin, security-syntax-errors:
 const transform = (source) => babel.transform(source, { plugins: [SecuritySyntaxErrors] });
 
+// Invalid API keys that resemble valid ones (since that would defeat the purpose of this package)
+const SAMPLE_KEYS = {
+    stripe: "sk_live_FakeStripeAPIKey00000000",
+};
+
 test("SecuritySyntaxError constructor should create a instance of a SecuritySyntaxError", t =>
 {
     const message = "Simulated SecuritySyntaxError";
@@ -33,7 +38,7 @@ test("shouldn't mangle source if it doesn't contain an API key", t =>
 
 test("should throw an exception if source contains an API key in a string", t =>
 {
-    const source = "var api_key = \"sk_live_FakeStripeAPIKey00000000\";";
+    const source = "var api_key = \"" + SAMPLE_KEYS.stripe + "\";";
     const error = t.throws(() =>
     {
         transform(source);
@@ -44,8 +49,7 @@ test("should throw an exception if source contains an API key in a string", t =>
 
 test("should identify API keys even if parse fails", t =>
 {
-    const source = `This file doesn't contain valid JavaScript, but it includes an API key:
-        sk_live_FakeStripeAPIKey00000000.`;
+    const source = "This file doesn't contain valid JavaScript, but it includes an API key:" + SAMPLE_KEYS.stripe;
 
     const error = t.throws(() =>
     {
