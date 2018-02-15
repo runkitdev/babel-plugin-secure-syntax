@@ -7,11 +7,8 @@ function containsKey(string)
 {
     for (var keyDef in keyDefinitionsMap)
     {
-        if (keyDefinitionsMap.hasOwnProperty(keyDef))
-        {
-            if (keyDefinitionsMap[keyDef].test(string))
-                return keyDef;
-        }
+        if (keyDefinitionsMap[keyDef].test(string))
+            return keyDef;
     }
     return false;
 }
