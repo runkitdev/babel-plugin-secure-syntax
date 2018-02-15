@@ -1,6 +1,7 @@
 const test = require("ava").test;
 const SecuritySyntaxErrors = require("../index");
 const SecuritySyntaxError = require("../security-syntax-error");
+const AggregateError = require("../aggregate-error");
 const babel = require("babel-core");
 const R = require("ramda");
 
@@ -78,5 +79,7 @@ test("should identify API keys even if parse fails", t =>
     const error = t.throws(() =>
     {
         transform(source);
-    }, SecuritySyntaxError);
+    }, AggregateError);
+
+    t.is(R.any(error => error instanceof SecuritySyntaxError, error.children), true);
 });
