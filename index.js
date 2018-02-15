@@ -37,6 +37,28 @@ function securityCheckByRegex(source)
     return null;
 }
 
+function secureParse(self, insecureParse, args)
+{
+    var source = args[0];
+    var pedanticSecurityError = securityCheckByRegex(source);
+
+    try
+    {
+        const result = insecureParse.apply(self, args);
+
+        result.program.pedanticSecurityError = pedanticSecurityError;
+
+        return result;
+    }
+    catch (e)
+    {
+        if (pedanticSecurityError)
+            throw pedanticSecurityError;
+
+        throw e;
+    }
+}
+
 module.exports = function ()
 {
     return {
