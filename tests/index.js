@@ -49,16 +49,27 @@ R.mapObjIndexed((source, sampleName) =>
     });
 }, benignSamples);
 
-test("should throw an exception if source contains an API key in a string", t =>
-{
-    const source = "var api_key = \"" + SAMPLE_KEYS.stripe + "\";";
-    const error = t.throws(() =>
-    {
-        transform(source);
-    }, SecuritySyntaxError);
+const insecureSamples = {
+    "source with string": `var str = "${SAMPLE_KEYS.stripe}";`,
+    "source with template": `var t = \`${SAMPLE_KEYS.stripe}\`;`,
+    "source with regular expression (literal)": `var reA = /${SAMPLE_KEYS.stripe}/;`,
+    "source with regular expression": `var reB = new RegExp("${SAMPLE_KEYS.stripe}}");`,
+    "source with line comment": `var i = 1; // ${SAMPLE_KEYS.stripe}`,
+    "source with comment block": `var n = null; /* ${SAMPLE_KEYS.stripe} */`,
+};
 
-    t.is(/Inline Stripe API Key was found/.test(error.message), true);
-});
+R.mapObjIndexed((source, sampleName) =>
+{
+    test(`should throw an exception if ${sampleName} contains an API key in a string`, t =>
+    {
+        const error = t.throws(() =>
+        {
+            transform(source);
+        }, SecuritySyntaxError);
+
+        t.is(/Inline Stripe API Key was found/.test(error.message), true);
+    });
+}, insecureSamples);
 
 test("should identify API keys even if parse fails", t =>
 {
