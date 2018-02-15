@@ -28,11 +28,16 @@ function checkForKeyIn(property)
 
 function securityCheckByRegex(source)
 {
-    const matches = source.match(combinedKeyRegExes);
-    const children = matches && matches.map(match => new SecuritySyntaxError("Inline key error was found", match));
+    var match;
+    var errors = [];
+    while ((match = combinedKeyRegExes.exec(source)))
+    {
+        var location = { start: { columnNumber: match.index } };
+        errors.push(new SecuritySyntaxError("Inline key error was found", match[0], null, location));
+    }
 
-    if (children)
-        return new AggregateError("Multiple Security Errors", children);
+    if (errors.length)
+        return new AggregateError("Multiple Security Errors", errors);
 
     return null;
 }
