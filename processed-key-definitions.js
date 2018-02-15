@@ -12,6 +12,6 @@ module.exports.keyDefinitionsMap = keyDefinitionsMap;
 var combinedKeyRegExes = new RegExp(keyDefinitionRegExps.map(function (re)
 {
     return re.source;
-}).join("|"));
+}).join("|"), "g");
 
 module.exports.combinedKeyRegExes = combinedKeyRegExes;
