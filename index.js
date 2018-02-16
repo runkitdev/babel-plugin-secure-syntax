@@ -47,22 +47,14 @@ function securityCheckByRegex(source)
 function secureParse(self, insecureParse, args)
 {
     var source = args[0];
-    var pedanticSecurityError = securityCheckByRegex(source);
-
     try
     {
-        const result = insecureParse.apply(self, args);
-
-        result.program.pedanticSecurityError = pedanticSecurityError;
-
-        return result;
+        return insecureParse.apply(self, args);
     }
     catch (e)
     {
-        if (pedanticSecurityError)
-            throw pedanticSecurityError;
-
-        throw e;
+        // throw the caught error and any others found in securityCheckByRegex
+        throw securityCheckByRegex(source, [e]);
     }
 }
 
