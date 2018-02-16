@@ -60,13 +60,8 @@ module.exports = function (babelInstance)
 {
     var File = babelInstance.File;
 
-    if (File.__MODIFIED_BY_PREPROCESSER)
-        return;
-
     // keep unmodified parser from original babelInstance
     var FileParse = File.prototype.parse;
-
-    File.__MODIFIED_BY_PREPROCESSER = true;
 
     File.prototype.parse = function ()
     {
