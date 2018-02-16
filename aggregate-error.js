@@ -1,5 +1,9 @@
 function AggregateError(message, children)
 {
+    // Aggregate errors must have multiple children, otherwise they should be single errors
+    if (children.length <= 1)
+        return children.pop();
+
     var instance = new Error(message);
     instance.children = children;
 
