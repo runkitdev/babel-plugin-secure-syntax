@@ -24,6 +24,13 @@ const SAMPLE_SECURITY_SYNTAX_ERROR_VALUES = new function ()
 
 const SAMPLE_SECURITY_SYNTAX_ERROR = SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.sample;
 
+const SAMPLE_SYNTAX_ERROR = new SyntaxError("Simulated SyntaxError");
+
+const SAMPLE_AGGREGATE_ERROR = new AggregateError("Simulated AggregateError", [
+    SAMPLE_SECURITY_SYNTAX_ERROR,
+    SAMPLE_SYNTAX_ERROR,
+]);
+
 test("SecuritySyntaxError constructor should create a instance of a SecuritySyntaxError", t =>
 {
     const error = new SecuritySyntaxError(
@@ -42,6 +49,57 @@ test("SecuritySyntaxError constructor should create a instance of a SecuritySynt
     t.is(error instanceof SecuritySyntaxError, true);
     t.is(error instanceof SyntaxError, true);
 });
+
+test("AggregateError constructor should create a instance of an AggregateError", t =>
+{
+    const message = "Simulated AggregateError";
+    const children = [
+        SAMPLE_SECURITY_SYNTAX_ERROR,
+        SAMPLE_SYNTAX_ERROR
+    ];
+
+    const error = new AggregateError(message, children);
+    t.is(error.toString(), "AggregateError: Simulated AggregateError\n* SecuritySyntaxError: Simulated SecuritySyntaxError\n* SyntaxError: Simulated SyntaxError");
+    t.is(error.message, message);
+    t.deepEqual(error.children, children);
+    t.is(error instanceof Error, true);
+    t.is(error instanceof AggregateError, true);
+});
+
+test("AggregateError constructor should return Error if it has only one child", t =>
+{
+    const message = "Simulated AggregateError";
+    const children = [
+        SAMPLE_SECURITY_SYNTAX_ERROR
+    ];
+
+    const error = new AggregateError(message, children);
+    t.is(error instanceof SecuritySyntaxError, true);
+    t.is(error instanceof AggregateError, false);
+});
+
+const aggregateErrorSamples = {
+    "error with mixed errors": [SAMPLE_AGGREGATE_ERROR, true],
+    "error with only SyntaxErrors": [
+        new AggregateError("Sample AggregateError", [SAMPLE_SYNTAX_ERROR, SAMPLE_SYNTAX_ERROR]),
+        false
+    ],
+    "error with only SecuritySyntaxErrors": [
+        new AggregateError("Sample AggregateError", [
+            SAMPLE_SECURITY_SYNTAX_ERROR,
+            SAMPLE_SECURITY_SYNTAX_ERROR
+        ]),
+        true
+    ],
+};
+
+R.mapObjIndexed(([error, expectedValue], sampleName) =>
+{
+    test(`AggregateError.containsSecuritySyntaxError() on ${sampleName} should return ${expectedValue}`, t =>
+    {
+        t.is(error.containsSecuritySyntaxError(), expectedValue);
+    });
+}, aggregateErrorSamples);
 
 const benignSamples = {
     "source with safe types": "var b = true;",
