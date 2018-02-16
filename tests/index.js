@@ -142,7 +142,7 @@ R.mapObjIndexed((source, sampleName) =>
     });
 }, insecureSamples);
 
-test("should identify API keys even if parse fails", t =>
+test("should throw AggregateError with SyntaxError and SecuritySyntaxError as children when parse fails", t =>
 {
     const source = "This file doesn't contain valid JavaScript, but it includes an API key:" + SAMPLE_KEYS.stripe;
 
@@ -151,5 +151,30 @@ test("should identify API keys even if parse fails", t =>
         transform(source);
     }, AggregateError);
 
+    t.is(error.children.length, 2);
+    t.is(R.any(error => error instanceof SyntaxError && !(error instanceof SecuritySyntaxError), error.children), true);
     t.is(R.any(error => error instanceof SecuritySyntaxError, error.children), true);
+});
+
+test("should throw AggregateError with multiple SyntaxErrors when containing multiple API keys", t =>
+{
+    const source = `var x = "${SAMPLE_KEYS.stripe}";\nvar y = "${SAMPLE_KEYS.stripe}"`;
+
+    const error = t.throws(() =>
+    {
+        transform(source);
+    }, AggregateError);
+
+    t.is(error.children.length, 2);
+    t.is(R.filter(error => error instanceof SecuritySyntaxError, error.children).length, 2);
+});
+
+test("should throw a single SyntaxError when not containing valid JavaScript or any API keys", t =>
+{
+    const source = "this is nonsense";
+
+    t.throws(() =>
+    {
+        transform(source);
+    }, SyntaxError);
 });
