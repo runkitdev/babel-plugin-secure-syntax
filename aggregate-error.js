@@ -1,3 +1,5 @@
+var SecuritySyntaxError = require("./security-syntax-error");
+
 function AggregateError(message, children)
 {
     // Aggregate errors must have multiple children, otherwise they should be single errors
@@ -27,6 +29,14 @@ AggregateError.prototype.toString = function ()
     }
 
     return errorString;
+};
+
+AggregateError.prototype.containsSecuritySyntaxError = function ()
+{
+    return this.children.reduce(function(accumulator, currentValue)
+    {
+        return accumulator || (currentValue instanceof SecuritySyntaxError);
+    }, false);
 };
 
 module.exports = AggregateError;
