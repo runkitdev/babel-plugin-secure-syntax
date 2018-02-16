@@ -13,19 +13,31 @@ const SAMPLE_KEYS = {
     stripe: "sk_live_FakeStripeAPIKey00000000",
 };
 
+const SAMPLE_SECURITY_SYNTAX_ERROR_VALUES = new function ()
+{
+    this.message = "Simulated SecuritySyntaxError";
+    this.type = "Fake";
+    this.fileName = "index.js";
+    this.location = { start: { columnNumber: 0, lineNumber: 0 }, end: { columnNumber: 1, lineNumber: 0 } };
+    this.sample = new SecuritySyntaxError(this.message, this.type, this.fileName, this.location);
+}();
+
+const SAMPLE_SECURITY_SYNTAX_ERROR = SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.sample;
+
 test("SecuritySyntaxError constructor should create a instance of a SecuritySyntaxError", t =>
 {
-    const message = "Simulated SecuritySyntaxError";
-    const type = "fake";
-    const fileName = "index.js";
-    const location = { start: { column: 0, lineNumber: 0 }, end: { column: 1, lineNumber: 0 } };
+    const error = new SecuritySyntaxError(
+        SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.message,
+        SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.type,
+        SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.fileName,
+        SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.location
+    );
 
-    const error = new SecuritySyntaxError(message, type, fileName, location);
-    t.is(error.message, message);
-    t.is(error.type, type);
-    t.is(error.fileName, fileName);
-    t.deepEqual(error.start, location.start);
-    t.deepEqual(error.end, location.end);
+    t.is(error.message, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.message);
+    t.is(error.type, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.type);
+    t.is(error.fileName, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.fileName);
+    t.deepEqual(error.start, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.location.start);
+    t.deepEqual(error.end, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.location.end);
     t.is(`${error}`, "SecuritySyntaxError: Simulated SecuritySyntaxError");
     t.is(error instanceof SecuritySyntaxError, true);
     t.is(error instanceof SyntaxError, true);
