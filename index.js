@@ -27,10 +27,10 @@ function checkForKeyIn(property)
     };
 }
 
-function securityCheckByRegex(source)
+function securityCheckByRegex(source, errors)
 {
     var match;
-    var errors = [];
+    // go through each match and create an error for it
     while ((match = combinedKeyRegExes.exec(source)))
     {
         var keyType = containsKey(match[0]);
@@ -38,10 +38,8 @@ function securityCheckByRegex(source)
         errors.push(new SecuritySyntaxError.KeyError(keyType, null, location));
     }
 
-    if (errors.length)
-        return new AggregateError("Multiple Security Errors", errors);
-
-    return null;
+    // in any case, return an AggregateError, which will yield the error if there's just one
+    return new AggregateError("Multiple Security Errors", errors);
 }
 
 function secureParse(self, insecureParse, args)
@@ -92,10 +90,7 @@ module.exports = function (babelInstance)
                 exit: function enter(path, state)
                 {
                     if (state.file.metadata.errors.length)
-                        throw state.file.metadata.errors.pop();
-
-                    if (path.node.pedanticSecurityError)
-                        throw path.node.pedanticSecurityError;
+                        throw new AggregateError("Multiple Security Syntax Errors", state.file.metadata.errors);
                 }
             },
             StringLiteral: checkForKeyIn("value"),
