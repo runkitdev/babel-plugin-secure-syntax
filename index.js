@@ -4,7 +4,7 @@ var SecuritySyntaxError = require("./security-syntax-error");
 var AggregateError = require("./aggregate-error");
 var keyDefinitionsMap = require("./processed-key-definitions").keyDefinitionsMap;
 var combinedKeyRegExes = require("./processed-key-definitions").combinedKeyRegExes;
-var locationRange = require("./location");
+var locationRange = require("./location").locationRange;
 
 function containsKey(string)
 {

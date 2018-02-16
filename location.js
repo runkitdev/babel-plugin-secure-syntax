@@ -13,4 +13,12 @@ function locationRange(source, index, match)
     return { start: startLocation, end: endLocation };
 }
 
-module.exports = locationRange;
+module.exports.locationRange = locationRange;
+
+function getLocation(source, regex)
+{
+    var match = regex.exec(source);
+    return match && locationRange(source, match.index, match[0]);
+}
+
+module.exports.getLocation = getLocation;
