@@ -1,8 +1,9 @@
+// lineNumber and columnNumber indexes are one-based
 function locationFromIndex(source, index)
 {
     const substring = source.substr(0, index);
     const lines = substring.split(/\n/);
-    return { columnNumber: lines[lines.length - 1].length, lineNumber: lines.length };
+    return { columnNumber: lines[lines.length - 1].length + 1, lineNumber: lines.length };
 };
 
 function locationRange(source, index, match)
