@@ -2,6 +2,7 @@ const test = require("ava").test;
 const SecuritySyntaxErrors = require("../index");
 const SecuritySyntaxError = require("../security-syntax-error");
 const AggregateError = require("../aggregate-error");
+const { getLocation } = require("../location");
 const babel = require("babel-core");
 const R = require("ramda");
 
@@ -100,6 +101,30 @@ R.mapObjIndexed(([error, expectedValue], sampleName) =>
         t.is(error.containsSecuritySyntaxError(), expectedValue);
     });
 }, aggregateErrorSamples);
+
+const locationSamples = {
+    "a full match": { sample: "match", coords: [[1, 1], [6, 1]] },
+    "a match at start of a line": { sample: "match something else", coords: [[1, 1], [6, 1]] },
+    "a match at end of a line": { sample: "something else match", coords: [[16, 1], [21, 1]] },
+    "a match on the first line": { sample: "a match\nsomething\nelse", coords: [[3, 1], [8, 1]] },
+    "a match on the last line": { sample: "something\nelse\na match", coords: [[3, 3], [8, 3]] },
+    "the first of multiple matches on one line": { sample: "one match and another match", coords: [[5, 1], [10, 1]] },
+    "the first of matches on multiple lines": { sample: "one match\nelse\na second match", coords: [[5, 1], [10, 1]] },
+    "a sample without any matches": { sample: "something\nwithout\nthe expected\nstring", coords: null },
+};
+
+const coordsToLocation = ([columnNumber, lineNumber]) => ({ columnNumber, lineNumber });
+const coordsPairToLocationRange = ([start, end]) => ({ start: coordsToLocation(start), end: coordsToLocation(end) });
+
+R.mapObjIndexed(({ sample, coords }, sampleName) =>
+{
+    const regex = /match/;
+    const expectedValue = coords && coordsPairToLocationRange(coords);
+    test(`should get correct locationRange of ${sampleName}`, t =>
+    {
+        t.deepEqual(getLocation(sample, regex), expectedValue);
+    });
+}, locationSamples);
 
 const benignSamples = {
     "source with safe types": "var b = true;",
