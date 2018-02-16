@@ -18,17 +18,10 @@ AggregateError.prototype = new Error();
 AggregateError.prototype.constructor = AggregateError;
 AggregateError.prototype.toString = function ()
 {
-    var errorString = "AggregateError: " + this.message;
-
-    if (this.children)
+    return "AggregateError: " + this.message + "\n" + this.children.map(function (error)
     {
-        errorString += "\n" + this.children.map(function (error)
-        {
-            return "* " + error.message + "\n";
-        });
-    }
-
-    return errorString;
+        return "* " + error.toString();
+    }).join("\n");
 };
 
 AggregateError.prototype.containsSecuritySyntaxError = function ()
