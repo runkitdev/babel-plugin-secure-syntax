@@ -203,3 +203,9 @@ test("should throw a single SyntaxError when not containing valid JavaScript or 
         transform(source);
     }, SyntaxError);
 });
+
+test("should return visitor from plug-in constructor without any arguments", t =>
+{
+    const plugin = SecuritySyntaxErrors();
+    t.is(R.contains("visitor", R.keys(plugin)), true);
+});

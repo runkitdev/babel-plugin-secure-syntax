@@ -58,15 +58,18 @@ function secureParse(self, insecureParse, args)
 
 module.exports = function (babelInstance)
 {
-    var File = babelInstance.File;
-
-    // keep unmodified parser from original babelInstance
-    var FileParse = File.prototype.parse;
-
-    File.prototype.parse = function ()
+    if (babelInstance)
     {
-        return secureParse(this, FileParse, arguments);
-    };
+        var File = babelInstance.File;
+
+        // keep unmodified parser from original babelInstance
+        var FileParse = File.prototype.parse;
+
+        File.prototype.parse = function ()
+        {
+            return secureParse(this, FileParse, arguments);
+        };
+    }
 
     return {
         visitor: {
