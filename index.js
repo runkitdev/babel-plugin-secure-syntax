@@ -2,30 +2,11 @@
 
 var SecuritySyntaxError = require("./security-syntax-error");
 var AggregateError = require("./aggregate-error");
-var keyDefinitionsMap = require("./processed-key-definitions").keyDefinitionsMap;
 var combinedKeyRegExes = require("./processed-key-definitions").combinedKeyRegExes;
 var locationRange = require("./location").locationRange;
-
-function containsKey(string)
-{
-    for (var keyDef in keyDefinitionsMap)
-    {
-        if (keyDefinitionsMap[keyDef].test(string))
-            return keyDef;
-    }
-    return false;
-}
-
-function checkForKeyIn(property)
-{
-    return function (path, state)
-    {
-        var keyType = containsKey(path.node[property]);
-
-        if (keyType)
-            state.file.metadata.errors.push(new SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
-    };
-}
+var checks = require("./checks");
+var containsKey = checks.containsKey;
+var checkForKeyIn = checks.checkForKeyIn;
 
 function securityCheckByRegex(source, errors)
 {
