@@ -19,8 +19,12 @@ function securityCheckByRegex(source, errors)
         errors.push(new SecuritySyntaxError.KeyError(keyType, null, location));
     }
 
-    // in any case, return an AggregateError, which will yield the error if there's just one
-    return new AggregateError("Multiple Security Errors", errors);
+    // return an AggregateError if there's more than one
+    if (errors.length > 1)
+        return new AggregateError("Multiple Security Errors", errors);
+
+    // otherwise, return the only error
+    return errors[0];
 }
 
 function secureParse(self, insecureParse, args)
@@ -69,7 +73,12 @@ module.exports = function (babelInstance)
                 exit: function enter(path, state)
                 {
                     if (state.file.metadata.errors.length)
-                        throw new AggregateError("Multiple Security Syntax Errors", state.file.metadata.errors);
+                    {
+                        if (state.file.metadata.errors.length > 1)
+                            throw new AggregateError("Multiple Security Syntax Errors", state.file.metadata.errors);
+
+                        throw state.file.metadata.errors[0];
+                    }
                 }
             },
             StringLiteral: checkForKeyIn("value"),
