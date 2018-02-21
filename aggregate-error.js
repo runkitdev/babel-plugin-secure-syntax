@@ -2,16 +2,17 @@ var SecuritySyntaxError = require("./security-syntax-error");
 
 function AggregateError(message, children)
 {
-    // Aggregate errors must have multiple children, otherwise they should be single errors
-    if (children.length <= 1)
-        return children.pop();
+    // Aggregate errors may have any number of children
+    if (!children)
+        children = [];
 
     var instance = new Error(message);
     instance.children = children;
 
     // Take the lineNumber and columnNumber from first child error
-    instance.lineNumber = children[0].lineNumber;
-    instance.columnNumber = children[0].columnNumber;
+    var firstChild = children[0];
+    instance.lineNumber = firstChild && children[0].lineNumber;
+    instance.columnNumber = firstChild && children[0].columnNumber;
 
     Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
 

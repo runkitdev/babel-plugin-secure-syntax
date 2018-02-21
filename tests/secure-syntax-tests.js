@@ -71,7 +71,7 @@ test("AggregateError constructor should create a instance of an AggregateError",
     t.is(error instanceof AggregateError, true);
 });
 
-test("AggregateError constructor should return Error if it has only one child", t =>
+test("AggregateError constructor should return AggregateError", t =>
 {
     const message = "Simulated AggregateError";
     const children = [
@@ -79,8 +79,8 @@ test("AggregateError constructor should return Error if it has only one child", 
     ];
 
     const error = new AggregateError(message, children);
-    t.is(error instanceof SecuritySyntaxError, true);
-    t.is(error instanceof AggregateError, false);
+    t.is(error.children[0] instanceof SecuritySyntaxError, true);
+    t.is(error instanceof AggregateError, true);
 });
 
 const aggregateErrorSamples = {
