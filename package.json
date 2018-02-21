@@ -1,5 +1,5 @@
 {
-  "name": "security-syntax-errors",
+  "name": "babel-plugin-secure-syntax",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Pieter Ouwerkerk <pieter.ouwerkerk@gmail.com>",
