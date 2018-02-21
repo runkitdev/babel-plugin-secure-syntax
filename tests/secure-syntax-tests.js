@@ -1,5 +1,5 @@
 const test = require("ava").test;
-const SecuritySyntaxErrors = require("../index");
+const SecuritySyntaxErrors = require("../secure-syntax");
 const SecuritySyntaxError = require("../security-syntax-error");
 const AggregateError = require("../aggregate-error");
 const { getLocation } = require("../location");

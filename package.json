@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-secure-syntax",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "secure-syntax.js",
   "author": "Pieter Ouwerkerk <pieter.ouwerkerk@gmail.com>",
   "license": "MIT",
   "dependencies": {
