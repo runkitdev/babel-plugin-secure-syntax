@@ -71,17 +71,20 @@ test("AggregateError constructor should create a instance of an AggregateError",
     t.is(error instanceof AggregateError, true);
 });
 
-test("AggregateError constructor should return AggregateError", t =>
-{
-    const message = "Simulated AggregateError";
-    const children = [
-        SAMPLE_SECURITY_SYNTAX_ERROR
-    ];
+const childrenSamples = {
+    "no children": null,
+    "a single child": SAMPLE_SECURITY_SYNTAX_ERROR,
+    "multiple children": [SAMPLE_SYNTAX_ERROR, SAMPLE_SECURITY_SYNTAX_ERROR],
+};
 
-    const error = new AggregateError(message, children);
-    t.is(error.children[0] instanceof SecuritySyntaxError, true);
-    t.is(error instanceof AggregateError, true);
-});
+R.mapObjIndexed((sample, sampleName) =>
+{
+    test(`AggregateError constructor should return AggregateError with ${sampleName}`, t =>
+    {
+        var error = new AggregateError(sample);
+        t.is(error instanceof AggregateError, true);
+    });
+}, childrenSamples);
 
 const aggregateErrorSamples = {
     "error with mixed errors": [SAMPLE_AGGREGATE_ERROR, true],
