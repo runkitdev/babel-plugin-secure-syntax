@@ -46,6 +46,8 @@ test("SecuritySyntaxError constructor should create a instance of a SecuritySynt
     t.is(error.fileName, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.fileName);
     t.deepEqual(error.start, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.location.start);
     t.deepEqual(error.end, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.location.end);
+    t.is(error.lineNumber, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.location.start.lineNumber);
+    t.is(error.columnNumber, SAMPLE_SECURITY_SYNTAX_ERROR_VALUES.location.start.columnNumber);
     t.is(`${error}`, "SecuritySyntaxError: Simulated SecuritySyntaxError");
     t.is(error instanceof SecuritySyntaxError, true);
     t.is(error instanceof SyntaxError, true);
@@ -62,6 +64,8 @@ test("AggregateError constructor should create a instance of an AggregateError",
     const error = new AggregateError(message, children);
     t.is(error.toString(), "AggregateError: Simulated AggregateError\n* SecuritySyntaxError: Simulated SecuritySyntaxError\n* SyntaxError: Simulated SyntaxError");
     t.is(error.message, message);
+    t.is(error.lineNumber, children[0].lineNumber);
+    t.is(error.columnNumber, children[0].columnNumber);
     t.deepEqual(error.children, children);
     t.is(error instanceof Error, true);
     t.is(error instanceof AggregateError, true);
