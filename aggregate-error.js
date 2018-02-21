@@ -9,6 +9,10 @@ function AggregateError(message, children)
     var instance = new Error(message);
     instance.children = children;
 
+    // Take the lineNumber and columnNumber from first child error
+    instance.lineNumber = children[0].lineNumber;
+    instance.columnNumber = children[0].columnNumber;
+
     Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
 
     return instance;
