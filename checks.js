@@ -1,4 +1,4 @@
-var SecuritySyntaxError = require("./security-syntax-error");
+var SecuritySyntaxError = require("./errors/security-syntax-error");
 var keyDefinitionsMap = require("./processed-key-definitions").keyDefinitionsMap;
 
 function containsKey(string)

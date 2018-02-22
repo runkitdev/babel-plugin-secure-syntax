@@ -1,7 +1,7 @@
 const test = require("ava").test;
 const SecuritySyntaxErrors = require("../secure-syntax");
-const SecuritySyntaxError = require("../security-syntax-error");
-const AggregateError = require("../aggregate-error");
+const SecuritySyntaxError = require("../errors/security-syntax-error");
+const AggregateError = require("../errors/aggregate-error");
 const { getLocation } = require("../location");
 const babel = require("babel-core");
 const R = require("ramda");

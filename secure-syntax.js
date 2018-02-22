@@ -1,7 +1,7 @@
 "use strict";
 
-var SecuritySyntaxError = require("./security-syntax-error");
-var AggregateError = require("./aggregate-error");
+var SecuritySyntaxError = require("./errors/security-syntax-error");
+var AggregateError = require("./errors/aggregate-error");
 var combinedKeyRegExes = require("./processed-key-definitions").combinedKeyRegExes;
 var locationRange = require("./location").locationRange;
 var checks = require("./checks");
