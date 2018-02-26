@@ -26,6 +26,8 @@
     "test": "nyc ava",
     "report": "nyc report --reporter=html"
   },
+  "repository" : "https://github.com/runkitdev/babel-plugin-secure-syntax.git",
+  "bugs": "https://github.com/runkitdev/babel-plugin-secure-syntax/issues",
   "ava": {
     "files": [
       "tests/*.js"
