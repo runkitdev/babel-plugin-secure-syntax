@@ -2,7 +2,67 @@
     {
         "description": "Stripe API Key",
         "regexp": {
-            "pattern": "sk_live_([A-Za-z0-9*]{12,30})"
+            "pattern": "sk_live_([A-Za-z0-9*]{12,30})",
+        }
+    },
+    {
+        "description": "GitHub Secret Token",
+        "regexp": {
+            "pattern": "[a-f0-9]{40}"
+        }
+    },
+    {
+        "description": "GitLab Personal Access Key",
+        "regexp": {
+            "pattern": "[A-Za-z0-9]{20}"
+        }
+    },
+    {
+        "description": "GitLab RSS Token",
+        "regexp": {
+            "pattern": "[A-Za-z0-9\\-]{20}"
+        }
+    },
+    {
+        "description": "GitLab Incoming Email Token",
+        "regexp": {
+            "pattern": "[a-z0-9]{25}"
+        }
+    },
+    {
+        "description": "AWS Access Key ID",
+        "regexp": {
+            "pattern": "[A-Z0-9/+=]{20}"
+        }
+    },
+    {
+        "description": "AWS Secret",
+        "regexp": {
+            "pattern": "[A-Za-z0-9/+=]{40}"
+        }
+    },
+    {
+        "description": "Dropbox API Key",
+        "regexp": {
+            "pattern": "[a-z0-9]{15}"
+        }
+    },
+    {
+        "description": "Twilio App Secret",
+        "regexp": {
+            "pattern": "[0-9a-f]{32}"
+        }
+    },
+    {
+        "description": "Coinbase",
+        "regexp": {
+            "pattern": "[A-Za-z0-9]{32}"
+        }
+    },
+    {
+        "description": "Facebook Developer App Secret",
+        "regexp": {
+            "pattern": "[a-f0-9]{32}"
         }
     }
 ]
