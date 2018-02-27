@@ -16,7 +16,7 @@ function securityCheckByRegex(source, errors)
     {
         var keyType = containsKey(match[0]);
         var location = locationRange(source, match.index, match[0]);
-        errors.push(new SecuritySyntaxError.KeyError(keyType, null, location));
+        errors.push(SecuritySyntaxError.KeyError(keyType, null, location));
     }
 
     // return an AggregateError if there's more than one
