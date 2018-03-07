@@ -1,3 +1,13 @@
+Object.setPrototypeOf = Object.setPrototypeOf || function(object, prototypeOf)
+{
+    return (object.__proto__ = prototypeOf, object);
+};
+
+Object.getPrototypeOf = Object.getPrototypeOf || function(object)
+{
+    return object.__proto__;
+};
+
 function SecuritySyntaxError(message, type, fileName, location)
 {
     var instance = new SyntaxError(message);

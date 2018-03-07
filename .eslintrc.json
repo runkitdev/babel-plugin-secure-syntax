@@ -11,6 +11,8 @@
     "indent": [2, 4, { "SwitchCase": 1 }],
     "no-console": [1, { "allow": ["warn", "error"] }],
     "no-multiple-empty-lines": 0,
+    "no-proto": 0,
+    "no-return-assign": 0,
     "no-undef": 1,
     "no-unused-vars": 1,
     "quotes": [1, "double"],

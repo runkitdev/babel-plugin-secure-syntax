@@ -1,5 +1,15 @@
 var SecuritySyntaxError = require("./security-syntax-error");
 
+Object.setPrototypeOf = Object.setPrototypeOf || function(object, prototypeOf)
+{
+    return (object.__proto__ = prototypeOf, object);
+};
+
+Object.getPrototypeOf = Object.getPrototypeOf || function(object)
+{
+    return object.__proto__;
+};
+
 function AggregateError(message, children)
 {
     // Aggregate errors may have any number of children
