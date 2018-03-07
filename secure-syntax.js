@@ -67,7 +67,7 @@ module.exports = function (babelInstance)
                     {
                         var keyType = containsKey(comment.value);
                         if (keyType)
-                            state.file.metadata.errors.push(new SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
+                            state.file.metadata.errors.push(SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
                     });
                 },
                 exit: function enter(path, state)
@@ -87,7 +87,7 @@ module.exports = function (babelInstance)
             {
                 var keyType = containsKey(path.node.value.raw);
                 if (keyType)
-                    state.file.metadata.errors.push(new SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
+                    state.file.metadata.errors.push(SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
             },
         }
     };

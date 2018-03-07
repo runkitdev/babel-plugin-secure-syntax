@@ -20,7 +20,7 @@ function checkForKeyIn(property)
         var keyType = containsKey(path.node[property]);
 
         if (keyType)
-            state.file.metadata.errors.push(new SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
+            state.file.metadata.errors.push(SecuritySyntaxError.KeyError(keyType, state.file.name, path.node.loc));
     };
 }
 
