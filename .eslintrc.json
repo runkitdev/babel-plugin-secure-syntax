@@ -7,6 +7,7 @@
   },
   "rules": {
     "brace-style": [1, "allman"],
+    "comma-dangle": [1, "only-multiline"],
     "curly": [2, "multi-or-nest"],
     "indent": [2, 4, { "SwitchCase": 1 }],
     "no-console": [1, { "allow": ["warn", "error"] }],
@@ -19,8 +20,7 @@
     "semi": [1, "always"],
     "space-before-function-paren": 0,
     "standard/computed-property-even-spacing": 0,
-    "template-curly-spacing": 0,
-    "comma-dangle": [1, "only-multiline"]
+    "template-curly-spacing": 0
   },
   "plugins": [],
   "settings": {
