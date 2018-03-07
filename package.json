@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-secure-syntax",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "security plugin for babel that checks for accidental API keys in your source code",
   "main": "secure-syntax.js",
   "author": "Pieter Ouwerkerk <pieter.ouwerkerk@gmail.com>",
