@@ -4,23 +4,5 @@
         "regexp": {
             "pattern": "sk_live_([A-Za-z0-9*]{12,30})"
         }
-    },
-    {
-        "description": "GitHub Secret Token",
-        "regexp": {
-            "pattern": "[a-f0-9]{40}"
-        }
-    },
-    {
-        "description": "Twilio App Secret",
-        "regexp": {
-            "pattern": "[0-9a-f]{32}"
-        }
-    },
-    {
-        "description": "Facebook Developer App Secret",
-        "regexp": {
-            "pattern": "[a-f0-9]{32}"
-        }
     }
 ]
